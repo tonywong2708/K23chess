@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>棋廿三 Go 23 - 圍棋教育機構</title>
+    <style>
+        /* 全局樣式設定 */
+        :root {
+            --primary-black: #1a1a1a;
+            --primary-white: #ffffff;
+            --bg-light: #f9f9f9;
+            --accent-wood: #dfb76c;
+            --text-dark: #333333;
+            --text-light: #666666;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang HK', 'Microsoft JhengHei', sans-serif;
+        }
+
+        body {
+            background-color: var(--primary-white);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* 導航欄 */
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 15px 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-black);
+            letter-spacing: 2px;
+        }
+
+        .logo span {
+            color: var(--accent-wood);
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-dark);
+            margin-left: 20px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent-wood);
+        }
+
+        /* 英雄橫幅 (Hero Banner) */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), 
+                        url('https://images.unsplash.com/photo-1611195974226-a6a9be9dd763?q=80&w=1920') no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--primary-white);
+            padding: 0 20px;
+            margin-top: 60px;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            max-width: 600px;
+            margin-bottom: 40px;
+            color: #dddddd;
+            font-weight: 300;
+        }
+
+        .cta-btn {
+            background-color: var(--accent-wood);
+            color: var(--primary-black);
+            padding: 12px 35px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .cta-btn:hover {
+            background-color: var(--primary-white);
+            transform: translateY(-3px);
+        }
+
+        /* 核心理念區塊 */
+        .philosophy {
+            padding: 80px 10%;
+            text-align: center;
+            background-color: var(--bg-light);
+        }
+
+        .section-title {
+            font-size: 28px;
+            margin-bottom: 15px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title::after {
+            content: '';
+            width: 50px;
+            height: 3px;
+            background-color: var(--accent-wood);
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .philosophy-grid {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 50px;
+            gap: 30px;
+        }
+
+        .p-card {
+            background: var(--primary-white);
+            padding: 30px;
+            border-radius: 8px;
+            flex: 1;
+            min-width: 280px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+            border-top: 4px solid var(--primary-black);
+        }
+
+        .p-card h3 {
+            margin-bottom: 15px;
+            color: var(--primary-black);
+        }
+
+        /* 課程收費表格區塊 */
+        .courses {
+            padding: 80px 5%;
+            text-align: center;
+        }
+
+        .table-container {
+            max-width: 900px;
+            margin: 50px auto 0 auto;
+            overflow-x: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 18px 25px;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        th {
+            background-color: var(--primary-black);
+            color: var(--primary-white);
+            font-weight: 600;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background-color: #fcf9f2;
+        }
+
+        .recommend-badge {
+            background-color: #e74c3c;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+
+        /* 頁腳 */
+        footer {
+            background-color: var(--primary-black);
+            color: #888888;
+            padding: 40px 5%;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        /* 手機板響應式優化 */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 30px; }
+            .hero p { font-size: 16px; }
+            .philosophy-grid { flex-direction: column; }
+            nav { display: none; } /* 簡化手機版導航 */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 導航欄 -->
+    <header>
+        <div class="logo">棋<span>廿三</span> Go 23</div>
+        <nav>
+            <a href="#about">教育理念</a>
+            <a href="#courses">組合課程</a>
+            <a href="#contact">立即報名</a>
+        </nav>
+    </header>
+
+    <!-- 英雄橫幅 -->
+    <section class="hero">
+        <h1>學會長遠佈局<br>落子皆為後續鋪墊</h1>
+        <p>引導孩子思考未來，淬鍊延後滿足的韌性。在棋盤的縱橫之間，告別只顧目前玩樂的短視，成就受用一生的大局觀。</p>
+        <a href="#courses" class="cta-btn">查看暑期組合課程</a>
+    </section>
+
+    <!-- 教育理念 -->
+    <section id="about" class="philosophy">
+        <h2 class="section-title">為什麼選擇棋廿三？</h2>
+        <div class="philosophy-grid">
+            <div class="p-card">
+                <h3>♟️ 延後滿足</h3>
+                <p>克制眼前的玩樂與小利，明白當下的每一手默默無聞的鋪墊，都是為了二十步後的最終勝利。</p>
+            </div>
+            <div class="p-card">
+                <h3>⚖️ 敢捨能得</h3>
+                <p>圍棋講求「棄子爭先」。讓孩子在面對虧損時學會果斷止損，培養面對失敗時的心理容量與格局。</p>
+            </div>
+            <div class="p-card">
+                <h3>👁️ 長遠規劃</h3>
+                <p>打破「當下本位」的短視，刺激前額葉發育，讓孩子自發性學會站在未來的時間點審視現在的行為。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 課程收費 -->
+    <section id="courses" class="courses">
+        <h2 class="section-title">2026 暑期班特惠組合課程</h2>
+        <p style="color: var(--text-light); margin-top: 10px;">Course Bundles - 堂數愈多，折扣愈高</p>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>課程方案 (Package)</th>
+                        <th>堂數 (Lessons)</th>
+                        <th>學費 (Price)</th>
+                        <th>平均每堂 (Per Lesson)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>入門體驗組</td>
+                        <td>6 堂</td>
+                        <td><strong>$828</strong></td>
+                        <td>$138</td>
+                    </tr>
+                    <tr>
+                        <td>基礎扎根組</td>
+                        <td>10 堂</td>
+                        <td><strong>$1,200</strong></td>
+                        <td>$120</td>
+                    </tr>
+                    <tr>
+                        <td>進階思考組</td>
+                        <td>15 堂</td>
+                        <td><strong>$1,680</strong></td>
+                        <td>$112</td>
+                    </tr>
+                    <tr>
+                        <td><strong>大局格局組</strong><span class="recommend-badge">家長首選</span></td>
+                        <td><strong>20 堂</strong></td>
+                        <td><strong>$2,080</strong></td>
+                        <td>$104</td>
+                    </tr>
+                    <tr>
+                        <td>棋道精英組</td>
+                        <td>30 堂</td>
+                        <td><strong>$2,880</strong></td>
+                        <td>$96</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div style="margin-top: 40px;">
+            <a href="https://wa.me/your_number" class="cta-btn" style="background-color: #25D366; color: white;">💬 WhatsApp 聯絡我們 / 預約試堂</a>
+        </div>
+    </section>
+
+    <!-- 頁腳 -->
+    <footer>
+        <p>&copy; 2026 棋廿三 Go 23. All Rights Reserved. 網頁法定工作年齡與勞工條例遵循機構。</p>
+    </footer>
+
+</body>
+</html>
