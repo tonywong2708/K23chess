@@ -23,6 +23,10 @@
             font-family: 'PingFang HK', 'Microsoft JhengHei', sans-serif;
         }
 
+        html {
+            scroll-behavior: smooth; /* 平滑滾動效果 */
+        }
+
         body {
             background-color: var(--primary-white);
             color: var(--text-dark);
@@ -43,11 +47,16 @@
             align-items: center;
         }
 
+        .logo-link {
+            text-decoration: none;
+        }
+
         .logo {
             font-size: 22px;
             font-weight: bold;
             color: var(--primary-black);
             letter-spacing: 1px;
+            cursor: pointer;
         }
 
         .logo span {
@@ -70,9 +79,10 @@
         .hero {
             background: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.75)), 
                         url('https://images.unsplash.com/photo-1611195974226-a6a9be9dd763?q=80&w=1920') no-repeat center center/cover;
-            height: 85vh;
+            height: 80vh;
             display: flex;
             flex-direction: column;
+            justify(content: center);
             justify-content: center;
             align-items: center;
             text-align: center;
@@ -118,6 +128,53 @@
             background-color: var(--primary-white);
             color: var(--primary-black);
             transform: translateY(-3px);
+        }
+
+        /* 同學上課照片剪影區塊 */
+        .gallery-section {
+            padding: 60px 5% 20px 5%;
+            text-align: center;
+        }
+
+        .gallery-grid {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .gallery-item {
+            flex: 1;
+            min-width: 280px;
+            max-width: 360px;
+            height: 240px;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.08);
+        }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            color: white;
+            padding: 15px 10px 10px 10px;
+            font-size: 14px;
+            font-weight: 500;
         }
 
         /* 課程特點區塊 */
@@ -253,10 +310,64 @@
             font-weight: bold;
         }
 
+        /* 比賽消息區塊 */
+        .news-section {
+            padding: 80px 10%;
+            background-color: var(--bg-light);
+            text-align: center;
+        }
+
+        .news-grid {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .news-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            flex: 1;
+            min-width: 280px;
+            max-width: 450px;
+            text-align: left;
+            overflow: hidden;
+        }
+
+        .news-img {
+            height: 200px;
+            background-color: #ddd;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .news-content {
+            padding: 25px;
+        }
+
+        .news-date {
+            color: var(--accent-wood);
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .news-content h3 {
+            margin-bottom: 10px;
+            font-size: 18px;
+            color: var(--primary-black);
+        }
+
+        .news-content p {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
         /* 聯絡與地點區塊 */
         .contact-section {
-            padding: 60px 10%;
-            background-color: var(--bg-light);
+            padding: 80px 10%;
             text-align: center;
         }
 
@@ -269,7 +380,7 @@
         }
 
         .address-card {
-            background: white;
+            background: var(--bg-light);
             padding: 20px;
             border-radius: 6px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.02);
@@ -317,7 +428,7 @@
         @media (max-width: 768px) {
             .hero h1 { font-size: 28px; }
             .hero p { font-size: 15px; }
-            .features-grid, .address-box { flex-direction: column; align-items: center; }
+            .features-grid, .address-box, .gallery-grid { flex-direction: column; align-items: center; }
             nav { display: none; }
         }
     </style>
@@ -325,11 +436,14 @@
 <body>
 
     <!-- 導航欄 -->
-    <header>
-        <div class="logo">棋廿三 × <span>K23 Education</span></div>
+    <header id="top">
+        <a href="#top" class="logo-link">
+            <div class="logo">棋廿三 × <span>K23 Education</span></div>
+        </a>
         <nav>
-            <a href="#features">課程特點</a>
+            <a href="#gallery">課堂剪影</a>
             <a href="#prices">暑期優惠</a>
+            <a href="#news">比賽消息</a>
             <a href="#contact">分院地點</a>
         </nav>
     </header>
@@ -342,8 +456,28 @@
         <a href="#prices" class="cta-btn">查看暑期班收費表</a>
     </section>
 
+    <!-- 同學上課照片剪影 -->
+    <section id="gallery" class="gallery-section">
+        <h2 class="section-title">課堂專注瞬間</h2>
+        <p style="color: var(--text-light); margin-top: 10px;">記錄孩子在棋盤與筆墨間的思考與蛻變</p>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="photo001.jpg" alt="圍棋對弈">
+                <div class="gallery-caption">沉穩對弈：在黑白世界中學習長遠佈局</div>
+            </div>
+            <div class="gallery-item">
+                <img src="photo002.png" alt="國際象棋">
+                <div class="gallery-caption">國象對決：推演每一步邏輯與應變</div>
+            </div>
+            <div class="gallery-item">
+                <img src="photo003.jpg" alt="書法靜心">
+                <div class="gallery-caption">書法練字：一筆一劃雕琢耐心與專注</div>
+            </div>
+        </div>
+    </section>
+
     <!-- 課程特點 -->
-    <section id="features" class="features">
+    <section class="features">
         <h2 class="section-title">多元課程 · 自由混合</h2>
         <div class="features-grid">
             <div class="f-card">
@@ -427,8 +561,32 @@
             <li><strong>自選上課時間：</strong> 星期一至日 10:00-17:00 或 17:00-18:00。</li>
             <li><strong>混合課程：</strong> 圍棋、國際象棋、書法課程可自由混合報讀。</li>
             <li><strong>預約機制：</strong> 報名後請至少提前一天透過 WhatsApp 向職員預約上課時間。</li>
-            <li><strong>有效期限：</strong> 註：所有暑期班課程需於 9 月前完成。</li>
+            <li><strong>有效期限：</strong> 所有暑期班課程需於 9 月前完成。</li>
         </ul>
+    </section>
+
+    <!-- 比賽消息區塊 -->
+    <section id="news" class="news-section">
+        <h2 class="section-title">最新賽事與消息</h2>
+        <p style="color: var(--text-light); margin-top: 10px;">棋廿三學員的榮譽舞台與最新賽事動態</p>
+        <div class="news-grid">
+            <div class="news-card">
+                <div class="news-img" style="background-image: url('https://images.unsplash.com/photo-1580541832626-2a7131ee809f?q=80&w=600');"></div>
+                <div class="news-content">
+                    <div class="news-date">2026年6月</div>
+                    <h3>賀！本院學員榮獲全港青少年圍棋大賽冠、亞軍</h3>
+                    <p>恭喜棋廿三多位學員在剛落幕的秋季大賽中表現出色，成功運用「棄子爭先」的大局戰略，在數百名選手中脫穎而出！</p>
+                </div>
+            </div>
+            <div class="news-card">
+                <div class="news-img" style="background-image: url('https://images.unsplash.com/photo-1560179707-f14e90ef3623?q=80&w=600');"></div>
+                <div class="news-content">
+                    <div class="news-date">2026年度賽事預告</div>
+                    <h3>【即將開放報名】冬季全港棋藝邀請賽</h3>
+                    <p>為了讓學員累積對局經驗、鍛鍊抗挫折能力，新一屆冬季大賽即將在11月舉行，本院將統一為學員代辦報名，詳情請留意導師通知。</p>
+                </div>
+            </div>
+        </div>
     </section>
 
     <!-- 聯絡與地點 -->
